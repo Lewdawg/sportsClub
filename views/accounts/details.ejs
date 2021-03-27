@@ -1,0 +1,75 @@
+<html lang="en">
+
+<%- include('../partials/head.ejs') %>
+
+    <body>
+
+        <%- include('../partials/nav.ejs') %>
+
+            <div class="details content">
+                <h2>
+                    <%= members.lastName %>
+                </h2>
+                <div class="content">
+                    <p>
+                        First Name:
+                        <b>
+                            <%= members.firstName %>
+                        </b>
+                    </p>
+                    <p>
+                        Last Name:
+                        <b>
+                            <%= members.lastName %>
+                        </b>
+                    </p>
+                    <p>
+                        Gender:
+                        <b>
+                            <%= members.sex %>
+                        </b>
+                    </p>
+                    <p>
+                        Sport:
+                        <b>
+                            <%= members.sport %>
+                        </b>
+                    </p>
+                    <p>
+                        Age:
+                        <b>
+                            <%= members.age %>
+                        </b>
+                    </p>
+
+                </div>
+
+                <a href="/" class="back"><b>Back</b></a>
+
+                <a class="delete" data-doc="<%= members._id %>">
+                    <img src="/trashcan.svg" alt="delete icon">
+                </a>
+
+                <%- include('../partials/footer.ejs') %>
+
+
+                    <script>
+                        const trashcan = document.querySelector('a.delete');
+
+                        trashcan.addEventListener('click', (event) => {
+
+                            const endPoint = `/accounts/${trashcan.dataset.doc}`;
+
+                            fetch(endPoint, {
+                                method: 'DELETE'
+                            })
+                                .then((response) => response.json())
+                                .then((data) => window.location.href = data.redirect)
+                                .catch(err => console.log(err));
+                        });
+
+                    </script>
+
+    </body>
+
+</html>

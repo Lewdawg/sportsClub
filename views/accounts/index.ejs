@@ -1,0 +1,41 @@
+<html lang="en">
+
+<%- include('../partials/head.ejs') %>
+
+    <body>
+
+        <%- include('../partials/nav.ejs') %>
+
+            <div class="acc content">
+                <h2>All Accounts</h2>
+
+                <% if(members.length> 0) {%>
+                    <% members.forEach(member=> {%>
+
+                        <a class="single" href="/accounts/<%= member._id %>">
+
+                            <h3 class="title">
+                                <%= member.firstName%>
+                                    <%= member.lastName%>
+                            </h3>
+                            <p class="snippet">
+                                <%= member.sport%>
+                            </p>
+
+                        </a>
+
+                        <%})%>
+                            <%} else {%>
+
+                                <p>There are no Accounts to display....</p>
+
+                                <%}%>
+
+            </div>
+
+
+            <%- include('../partials/footer.ejs') %>
+
+    </body>
+
+</html>
