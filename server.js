@@ -2,17 +2,25 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 
+//Express app
+const app = express();
+
 
 //Route access link
 const memberRoutes = require('./routes/memberRoutes.js');
 
+//View Engine
+app.set('view engine', 'ejs');
+
+
+//StaticFiles
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+
+
 
 //Port
 const port = process.env.PORT || '3500';
-
-//Express app
-const app = express();
-
 
 //Connect to MongoDB 
 mongoose.connect(process.env.MONGODB_LINK, {
@@ -26,16 +34,6 @@ mongoose.connect(process.env.MONGODB_LINK, {
     .catch((err) => console.log(err))
 
 
-//View Engine
-app.set('view engine', 'ejs');
-
-
-//StaticFiles
-app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true }));
-
-
-
 
 //Routes
 app.get('/', (req, res) => {
@@ -47,7 +45,7 @@ app.get('/about', (req, res) => {
 });
 
 
-app.use('/accounts', memberRoutes);
+app.use('/accounts', memberRoutes);                     //<--All other route requests will be sent through here.
 
 app.use((req, res) => {
     res.status(404).render('404', { title: '404' })
